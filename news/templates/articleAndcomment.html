@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+{% load static %}
+<html>
+<head>
+	{% block head %}
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="{% static '/articleAndcomment/articleAndcomment.js' %}"></script>
+	<Meta charset="UTF-8">
+	<title>News Website</title>
+	<link rel="stylesheet" type="text/css" href="{% static '/index/styles.css' %}" />
+	{% endblock %}
+</head>
+
+
+
+
+{% block content %}
+<div class="content">
+	<h2 id="articleTitle"> 
+
+		{% for Articles in article %}
+		{{ Articles.ArticleName }}
+
+	</h2>
+
+	<style>
+	.delete {
+		position: relative;
+		right: -850px;
+		top: -30px;
+		background-color: darkgrey;
+		color: black;
+
+	}
+
+	#contentDes{
+
+		color: black;
+	}
+
+	.delete:hover {
+		background-color: #f44336;
+		color: white;
+	}
+</style>
+<section>
+	<article id="art">
+		{% if Articles.imageUrl == "" %} 
+
+		{% else %}
+			<center><img src='{{Articles.imageUrl}}' alt="" height="200" width="400" align="middle"></center>
+			<br>
+			{% endif %}
+		{{ Articles.pub_date }}	
+		<br>
+
+		
+		<p id="contentDes">{{ Articles.Description }}</p>	
+		<br><br>
+		<div class="fa-3x">
+			{% if userloggedIn %} 
+			<button class="likedBtn" id="Like" >
+				<span class="fa-layers fa-fw">
+					<i class="fas fa-thumbs-up" style="color:green"></i>
+					<span class="fa-layers-counter" style="background:Tomato"><div id="nooflikes">{{ liked }}</div></span>
+				</span></button>
+
+
+				<button class="likedBtn" id="Dislike"> <span class="fa-layers fa-fw">
+					<i class="fas fa-thumbs-down" style="color:red"></i>
+					<span class="fa-layers-counter" style="background:Tomato"><div id="noofdislikes">{{ disliked }}</div></span>
+				</span></button>
+				{% else %}
+
+
+				<button type="button" class="likedBtn" id="Like" disabled>
+					<span class="fa-layers fa-fw">
+						<i class="fas fa-thumbs-up" style="color:green"></i>
+						<span class="fa-layers-counter" style="background:Tomato"><div id="nooflikes">{{ liked }}</div></span>
+					</span></button>
+
+
+					<button type="button" class="likedBtn" id="Dislike" disabled> <span class="fa-layers fa-fw">
+						<i class="fas fa-thumbs-down" style="color:red"></i>
+						<span class="fa-layers-counter" style="background:Tomato"><div id="noofdislikes">{{ disliked }}</div></span>
+
+
+						{% endif %}
+
+					</div>
+
+					<br>
+					{% endfor %}
+					<h3>Comments</h3>
+
+					<div id="comments">
+						{% block comments %}
+
+						{% load humanize %}
+
+						{% for Comments in comments %}
+
+						<div  id='{{Comments.pk}}'><div class="c">{{Comments.timeOfComment|naturaltime}}<br><p>{{Comments.UserWhoCommented.name}}<strong>:</strong> {{ Comments.CommentInfo }}		{% if userloggedIn and user.email == Comments.UserWhoCommented.email %} </p><button class="delete" id='/news/{{Comments.pk}}/{{Comments.articleCommentedOn.pk}}/delete?'>Delete</button>
+						</div>
+						{% else %}	
+
+					{% endif %}</div>
+
+					<div  id='{{Comments.pk}}'><br></div>
+					{% endfor %}
+
+					{% endblock %}
+
+				</div>
+			</section>
+			{% if userloggedIn %}
+			<section>
+				<div class ="s">
+					<ul>
+						{% csrf_token %}
+						<textarea id="commentBox"  form= "commentform" cols="20"  placeholder="Enter your comments here"></textarea>
+						<form class="comment" name="commentform">
+							
+
+							<input id="sub" type="submit" value="Comment" style="color: black">
+						</form>
+
+					</ul>
+				</div>
+			</section>
+			{% else %}
+			{% endif %}
+
+		</article>
+
+
+
+
+
+
+
+
+
+		{% endblock %}
+
+
+		</html>
+

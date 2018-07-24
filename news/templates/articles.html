@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+{% load static %}
+<html>
+<head>
+	{% block head %}
+
+	{% endblock %}
+</head>
+{% block content %}
+
+{% for Articles in articleTitle %}
+<h1>
+{{ Articles.Categories }}
+</h1>
+<div class="s">
+	<a href="/news/{{ Articles.pk }}/getSpecificArticle" > <h1>{{ Articles.ArticleName }}</h1> 
+</br>
+	<b>{{ Articles.pub_date }}</b>	
+	</br>
+   <p>{{ Articles.Description|truncatewords:40 }} Continue with full story </p>	
+   </a>
+</div>
+
+{% endfor %}
+
+{% endblock %}
+
+</html>

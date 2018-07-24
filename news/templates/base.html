@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+	{% load static %}
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="{% static '/index/index.js' %}"></script>
+	<Meta charset="UTF-8">
+	<title>News Website</title>
+
+	<script defer src="https://use.fontawesome.com/releases/v5.0.1/js/all.js"></script>
+	<link rel="stylesheet" type="text/css" href="{% static '/index/ddmenu.css' %}" />
+	<link rel="stylesheet" type="text/css" href="{% static '/index/styles.css' %}" />
+	<link rel="stylesheet" type="text/css" href="{% static '/index/styles2.css' %}" />
+		  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	{% block head %}
+	{% endblock%}
+</head>
+<nav role='navigation'>
+	<ul>
+		<li><a href="/news">Home</a></li>
+		<li><a href="/news/all/getArticles 
+			">Article Category</a>
+			<ul>
+				{% for Cat in articleCat %}
+				<li><a href="/news/{{Cat}}/getArticles">{{Cat}}</a></li>
+				{% endfor %}
+				
+			</ul></li>
+			{% if userloggedIn %}
+			<li><a href="/news/logOut">Log Out</a></li>
+			<li><a href="/news/updateLogin">Update Details</a></li>
+			{% else %}
+			<li><a href="loginPage">Log In</a></li>
+			<li><a href="signUp">Register</a></li>
+			{%endif%}
+		</ul>
+	</nav>  
+
+	<body>
+
+
+
+		<div class="container">
+			{% block content %}
+			{% endblock %}
+		</div>	
+	</body>	
+
+
+
+	</html>

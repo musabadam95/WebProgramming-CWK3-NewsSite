@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+{% load static %}
+<html>
+<head>
+	{% block head %}
+	<script src="{% static '/register/register.js' %}"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+	<title>Register Page</title>
+	{% endblock %}
+</head>
+<body>
+	{% block content %}
+		<div class="alert">
+
+	</div>
+	<div class="form-wrap">
+		<h2>Sign Up Now!</h2>
+		<form class="registerform" ng-app="app" name="myForm" ng-controller="Validate" novalidate>
+			{% csrf_token %}
+			<input id="name" type="text" placeholder="Full Name" name="full_name" value="" ng-model="full_name" required><br>
+			<input id="email" type="text" placeholder="Email Address" name="Username" value="" ng-model="Username" required><br>
+			<input id="phone" type="text" placeholder="Phone Number" name="phone_number" value="" ng-minlength="11" maxlength="11" ng-model="phone_number" required><br>
+
+
+			<input type="password" placeholder="Password" name="Password" ng-model="Password" required><br>
+
+
+
+			<input type="submit" value="Register now" 
+			ng-disabled="myForm.Username.$dirty && myForm.Username.$invalid
+			||
+			myForm.Username.$pristine && myForm.Username.$invalid 
+			||
+			myForm.Password.$dirty && myForm.Password.$invalid 
+			|| 
+			myForm.Password.$pristine && myForm.Password.$invalid 
+			||
+			myForm.full_name.$dirty && myForm.full_name.$invalid 
+			|| 
+			myForm.full_name.$pristine && myForm.full_name.$invalid 
+			|| 
+			myForm.phone_number.$dirty && myForm.phone_number.$invalid 
+			|| 
+			myForm.phone_number.$pristine && myForm.phone_number.$invalid
+			||
+			myForm.phone_number.$dirty && myForm.phone_number.$error.minlength 
+			|| 
+			myForm.phone_number.$pristine && myForm.phone_number.$error.minlength">
+		</form>
+		<script>
+			var app = angular.module('app', []);
+			app.controller('Validate', function($scope) {
+				$scope.Username="";
+				$scope.Password ="";
+				$scope.full_name ="";
+				$scope.phone_number ="";			
+
+			});
+		</script>
+	</div>
+	{% endblock %}
+
+</body>
+</html>

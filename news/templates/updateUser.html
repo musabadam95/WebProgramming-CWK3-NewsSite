@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+{% load static %}
+<html>
+<head>
+	{% block head %}
+	<script src="{% static '/register/update.js' %}"></script>
+			<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+	<title>Register Page</title>
+	{% endblock %}
+</head>
+<body>
+	{% block content %}
+	<div class="form-wrap">
+		<h2>Sign Up Now!</h2>
+		<form class="updateForm" ng-app="app" name="myForm" ng-controller="Validate" novalidate>
+			{% csrf_token %}
+			<input id="name" type="text" placeholder="Full Name" name="full_name" ng-model="full_name" required><br>
+			<input id="email" type="text" placeholder="Email Address" name="email_address" ng-model="Username" required ><br>
+			<input id="phone" type="text" placeholder="Phone Number" name="phone_number"  ng-model="phone_number" required ><br>
+			<input type="password" placeholder="Password" name="Password" ><br>
+			<input type="submit" value="Update now" 
+			ng-disabled="myForm.Username.$dirty && myForm.Username.$invalid
+			||
+			myForm.Username.$pristine && myForm.Username.$invalid 
+			||
+			myForm.Password.$dirty && myForm.Password.$invalid 
+			|| 
+			myForm.Password.$pristine && myForm.Password.$invalid 
+			||
+			myForm.full_name.$dirty && myForm.full_name.$invalid 
+			|| 
+			myForm.full_name.$pristine && myForm.full_name.$invalid 
+			|| 
+			myForm.phone_number.$dirty && myForm.phone_number.$invalid 
+			|| 
+			myForm.phone_number.$pristine && myForm.phone_number.$invalid">
+
+		</form>
+		<script>
+			var app = angular.module('app', []);
+			app.controller('Validate', function($scope) {
+				$scope.Username="{{user.email}}";
+				$scope.full_name ="{{user.name}}";
+				$scope.phone_number ="{{user.telephone}}";	
+
+			});
+		</script>
+
+	</div>
+	{% endblock %}
+
+</body>
+</html>
